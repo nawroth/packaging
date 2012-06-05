@@ -25,17 +25,30 @@
   <formats>
     <format>tar.gz</format>
   </formats>
-
   <fileSets>
 
     <!-- filter plain text -->
     <fileSet>
-      <directory>src/main/distribution/text/community</directory>
+      <directory>src/main/distribution/text/advanced</directory>
       <outputDirectory>/</outputDirectory>
       <lineEnding>unix</lineEnding>
       <filtered>true</filtered>
+      <excludes>
+        <exclude>conf/jmx.*</exclude>
+      </excludes>
       <directoryMode>0755</directoryMode>
       <fileMode>0644</fileMode>
+    </fileSet>
+    <!-- password files -->
+    <fileSet>
+      <directory>src/main/distribution/text/advanced</directory>
+      <outputDirectory>/</outputDirectory>
+      <lineEnding>unix</lineEnding>
+      <filtered>true</filtered>
+      <includes>
+        <include>conf/jmx.*</include>
+      </includes>
+      <fileMode>0600</fileMode>
     </fileSet>
     <!-- non-maven jars -->
     <fileSet>
@@ -109,12 +122,11 @@
       <excludes>
         <exclude>*:javadoc:*</exclude>
         <exclude>*:manpages:*</exclude>
-        <exclude>*:manpagesenterprise:*</exclude>
         <exclude>*:docs:*</exclude>
         <exclude>*:pom:*</exclude>
         <exclude>org.neo4j:neo4j:jar</exclude>
         <exclude>org.neo4j:neo4j-community:jar</exclude>
-        <exclude>org.neo4j:neo4j-udc:jar:neo4j</exclude>
+        <exclude>org.neo4j:neo4j-advanced:jar</exclude>
         <exclude>org.neo4j.app:windows-service-wrapper:*</exclude>
       </excludes>
     </dependencySet>
@@ -132,7 +144,6 @@
         <exclude>org.neo4j.doc:*</exclude>
         <exclude>org.apache.geronimo.specs:geronimo-jta_1.1_spec</exclude>
         <exclude>org.apache.servicemix.bundles:org.apache.servicemix.bundles.jline</exclude>
-        <exclude>org.apache.servicemix.bundles:org.apache.servicemix.bundles.lucene</exclude>
         <exclude>org.apache.servicemix.bundles:org.apache.servicemix.bundles.netty</exclude>
         <exclude>org.apache.lucene:lucene-core</exclude>
         <exclude>org.apache.zookeeper:zookeeper</exclude>
@@ -149,7 +160,7 @@
       <fileMode>0444</fileMode>
       <directoryMode>0777</directoryMode>
       <includes>
-        <include>org.neo4j:neo4j:*:javadoc</include>
+        <include>org.neo4j:neo4j-advanced:*:javadoc</include>
       </includes>
     </dependencySet>
     <!-- der manual -->

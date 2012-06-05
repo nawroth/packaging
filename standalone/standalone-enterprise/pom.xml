@@ -9,19 +9,19 @@
   </parent>
 
   <groupId>org.neo4j.assembly</groupId>
-  <artifactId>neo4j-community-standalone</artifactId>
+  <artifactId>neo4j-enterprise-standalone</artifactId>
   <packaging>pom</packaging>
 
-  <name>Neo4j Community - Server Assembler</name>
+  <name>Neo4j Enterprise - Server Assembler</name>
 
   <version>1.8-SNAPSHOT</version>
-  <description>This project assembles the Neo4j Community stand-alone distribution,
+  <description>This project assembles the Neo4j Enterprise stand-alone distribution,
     pulling together all the deliverable artifacts and packaging them 
       into a downloadable installer.</description>
   <url>http://components.neo4j.org/${project.artifactId}/${project.version}</url>
 
   <scm>
-    <url>https://github.com/neo4j/packaging/tree/master/standalone/standalone-community</url>
+    <url>https://github.com/neo4j/packaging/tree/master/standalone/standalone-enterprise</url>
   </scm>
 
 
@@ -70,32 +70,32 @@ terms of the relevant Commercial Agreement.
         <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
           <attach>false</attach>
-          <finalName>${server.shortname}-community-${project.version}</finalName>
+          <finalName>${server.shortname}-enterprise-${project.version}</finalName>
           <appendAssemblyId>true</appendAssemblyId>
           <outputDirectory>${project.parent.build.directory}</outputDirectory>
         </configuration>
         <executions>
           <execution>
-            <id>community-unix-dist</id>
+            <id>enterprise-unix-dist</id>
             <phase>package</phase>
             <goals>
               <goal>single</goal>
             </goals>
             <configuration>
               <descriptors>
-                <descriptor>src/main/assemblies/community-unix-dist.xml</descriptor>
+                <descriptor>src/main/assemblies/enterprise-unix-dist.xml</descriptor>
               </descriptors>
             </configuration>
           </execution>
           <execution>
-            <id>community-windows-dist</id>
+            <id>enterprise-windows-dist</id>
             <phase>package</phase>
             <goals>
               <goal>single</goal>
             </goals>
             <configuration>
               <descriptors>
-                <descriptor>src/main/assemblies/community-windows-dist.xml</descriptor>
+                <descriptor>src/main/assemblies/enterprise-windows-dist.xml</descriptor>
               </descriptors>
             </configuration>
           </execution>
@@ -118,7 +118,7 @@ terms of the relevant Commercial Agreement.
                   <groupId>org.neo4j.doc</groupId>
                   <artifactId>neo4j-manual</artifactId>
                   <version>${neo4j.version}</version>
-                  <classifier>manpages</classifier>
+                  <classifier>manpagesenterprise</classifier>
                   <type>jar</type>
                   <outputDirectory>${project.build.directory}/manpages</outputDirectory>
                   <includes>*.txt,**/*.txt</includes>
@@ -136,34 +136,28 @@ terms of the relevant Commercial Agreement.
   <dependencies>
     <dependency>
       <groupId>org.neo4j</groupId>
-      <artifactId>neo4j-community</artifactId>
+      <artifactId>neo4j-enterprise</artifactId>
       <version>${neo4j.version}</version>
     </dependency>
     <dependency>
       <groupId>org.neo4j</groupId>
-      <artifactId>neo4j</artifactId>
+      <artifactId>neo4j-enterprise</artifactId>
       <version>${neo4j.version}</version>
       <classifier>javadoc</classifier>
     </dependency>
     <dependency>
       <groupId>org.neo4j.app</groupId>
-      <artifactId>neo4j-server</artifactId>
+      <artifactId>neo4j-server-enterprise</artifactId>
       <version>${neo4j.version}</version>
     </dependency>
+
     <dependency>
       <!-- Ugly addition just to make the download package contain the same jars. -->
       <groupId>org.slf4j</groupId>
-      <artifactId>jcl-over-slf4j</artifactId>
-      <version>1.6.1</version>
-      <!-- Remove conflicting version (why do we have this conflict?) -->
-      <exclusions>
-        <exclusion>
-          <groupId>org.slf4j</groupId>
-          <artifactId>slf4j-api</artifactId>
-        </exclusion>
-      </exclusions>
+      <artifactId>slf4j-api</artifactId>
+      <!-- This actually conflicts with the jcl-over-slf4j version which is 1.6.1. -->
+      <version>1.6.2</version>
     </dependency>
-    
 
   </dependencies>
 

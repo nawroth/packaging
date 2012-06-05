@@ -44,7 +44,7 @@
       </includes>
     </fileSet>
     <fileSet>
-      <directory>src/main/distribution/shell-scripts</directory>
+      <directory>${project.parent.basedir}/src/main/distribution/shell-scripts</directory>
       <outputDirectory>/</outputDirectory>
       <lineEnding>dos</lineEnding>
       <includes>
@@ -105,16 +105,9 @@
         <exclude>*:docs:*</exclude>
         <exclude>*:pom:*</exclude>
         <exclude>org.neo4j:neo4j:jar</exclude>
+        <exclude>org.neo4j:neo4j-community:jar</exclude>
         <exclude>org.neo4j:neo4j-udc:jar:neo4j</exclude>
         <exclude>org.neo4j.app:windows-service-wrapper:*</exclude>
-        
-        <exclude>org.neo4j:neo4j-advanced</exclude>
-        <exclude>org.neo4j:neo4j-backup</exclude>
-        <exclude>org.neo4j:neo4j-com</exclude>
-        <exclude>org.neo4j:neo4j-enterprise</exclude>
-        <exclude>org.neo4j:neo4j-ha</exclude>
-        <exclude>org.neo4j:neo4j-management</exclude>
-        <exclude>org.apache.zookeeper:zookeeper</exclude>
       </excludes>
     </dependencySet>
     <dependencySet>
@@ -134,10 +127,6 @@
         <exclude>org.apache.lucene:lucene-core</exclude>
         <exclude>org.apache.zookeeper:zookeeper</exclude>
         <exclude>log4j:log4j</exclude>
-        <exclude>org.neo4j:neo4j-advanced</exclude>
-        <exclude>*:neo4j-server-advanced</exclude>
-        <exclude>org.neo4j:neo4j-enterprise</exclude>
-        <exclude>*:neo4j-server-enterprise</exclude>
         <exclude>org.scala-lang:scala-library</exclude>
         <exclude>org.neo4j.app:windows-service-wrapper:*</exclude>
       </excludes>
@@ -157,6 +146,7 @@
     <dependencySet>
       <outputDirectory>doc/manual/</outputDirectory>
       <unpack>true</unpack>
+      <useProjectArtifact>false</useProjectArtifact>
       <fileMode>0444</fileMode>
       <directoryMode>0777</directoryMode>
       <includes>
