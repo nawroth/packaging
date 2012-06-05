@@ -96,6 +96,99 @@ terms of the relevant Commercial Agreement.
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>community-unix-dist</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <attach>true</attach>
+              <descriptors>
+                <descriptor>src/main/assemblies/community-unix-dist.xml</descriptor>
+              </descriptors>
+              <finalName>${server.shortname}-community-${project.version}</finalName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>advanced-unix-dist</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <attach>false</attach>
+              <descriptors>
+                <descriptor>src/main/assemblies/advanced-unix-dist.xml</descriptor>
+              </descriptors>
+              <finalName>${server.shortname}-advanced-${project.version}</finalName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>enterprise-unix-dist</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <attach>false</attach>
+              <descriptors>
+                <descriptor>src/main/assemblies/enterprise-unix-dist.xml</descriptor>
+              </descriptors>
+              <finalName>${server.shortname}-enterprise-${project.version}</finalName>
+            </configuration>
+          </execution>
+          <execution>
+            <id>community-windows-dist</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <attach>false</attach>
+              <descriptors>
+                <descriptor>src/main/assemblies/community-windows-dist.xml</descriptor>
+              </descriptors>
+              <finalName>${server.shortname}-community-${project.version}</finalName>
+              <appendAssemblyId>true</appendAssemblyId>
+            </configuration>
+          </execution>
+          <execution>
+            <id>advanced-windows-dist</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <attach>false</attach>
+              <descriptors>
+                <descriptor>src/main/assemblies/advanced-windows-dist.xml</descriptor>
+              </descriptors>
+              <finalName>${server.shortname}-advanced-${project.version}</finalName>
+              <appendAssemblyId>true</appendAssemblyId>
+            </configuration>
+          </execution>
+           <execution>
+            <id>enterprise-windows-dist</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <configuration>
+              <attach>false</attach>
+              <descriptors>
+                <descriptor>src/main/assemblies/enterprise-windows-dist.xml</descriptor>
+              </descriptors>
+              <finalName>${server.shortname}-enterprise-${project.version}</finalName>
+              <appendAssemblyId>true</appendAssemblyId>
+            </configuration>
+          </execution>         
+        </executions>
+      </plugin>
+      <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
         <executions>
           <execution>
@@ -110,6 +203,44 @@ terms of the relevant Commercial Agreement.
           <execution>
             <id>get-javadoc-sources</id>
             <phase>none</phase>
+          </execution>
+          <execution>
+            <id>unpack-manpages</id>
+            <phase>generate-resources</phase>
+            <goals><goal>unpack</goal></goals>
+             <configuration>
+               <artifactItems>
+                 <artifactItem>
+                  <groupId>org.neo4j.doc</groupId>
+                  <artifactId>neo4j-manual</artifactId>
+                  <version>${neo4j.version}</version>
+                  <classifier>manpages</classifier>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/manpages</outputDirectory>
+                  <includes>*.txt,**/*.txt</includes>
+                  <excludes>META-INF/**</excludes>
+                 </artifactItem>
+               </artifactItems>
+             </configuration>
+          </execution>
+          <execution>
+            <id>unpack-manpages-enterprise</id>
+            <phase>generate-resources</phase>
+            <goals><goal>unpack</goal></goals>
+             <configuration>
+               <artifactItems>
+                 <artifactItem>
+                  <groupId>org.neo4j.doc</groupId>
+                  <artifactId>neo4j-manual</artifactId>
+                  <version>${neo4j.version}</version>
+                  <classifier>manpagesenterprise</classifier>
+                  <type>jar</type>
+                  <outputDirectory>${project.build.directory}/manpages-enterprise</outputDirectory>
+                  <includes>*.txt,**/*.txt</includes>
+                  <excludes>META-INF/**</excludes>
+                 </artifactItem>
+               </artifactItems>
+             </configuration>
           </execution>
           <execution>
             <id>unpack-upgrade</id>
@@ -193,6 +324,11 @@ terms of the relevant Commercial Agreement.
         <enabled>false</enabled>
       </releases>
     </repository>
+     <repository>
+        <id>java.net</id>
+        <name>maven release repository</name>
+        <url>http://download.java.net/maven/2</url>
+      </repository>
   </repositories>
 
   <dependencies>
@@ -200,6 +336,113 @@ terms of the relevant Commercial Agreement.
       <groupId>org.neo4j.app</groupId>
       <artifactId>windows-service-wrapper</artifactId>
       <version>${windows-wrapper.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j</groupId>
+      <artifactId>neo4j-udc</artifactId>
+      <version>${neo4j.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j</groupId>
+      <artifactId>neo4j-community</artifactId>
+      <version>${neo4j.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>neo4j-udc</artifactId>
+          <groupId>org.neo4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j</groupId>
+      <artifactId>neo4j-advanced</artifactId>
+      <version>${neo4j.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>neo4j-udc</artifactId>
+          <groupId>org.neo4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j</groupId>
+      <artifactId>neo4j-enterprise</artifactId>
+      <version>${neo4j.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>neo4j-udc</artifactId>
+          <groupId>org.neo4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j</groupId>
+      <artifactId>neo4j</artifactId>
+      <version>${neo4j.version}</version>
+      <classifier>javadoc</classifier>
+      <exclusions>
+        <exclusion>
+          <artifactId>neo4j-udc</artifactId>
+          <groupId>org.neo4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j</groupId>
+      <artifactId>neo4j-advanced</artifactId>
+      <version>${neo4j.version}</version>
+      <classifier>javadoc</classifier>
+      <exclusions>
+        <exclusion>
+          <artifactId>neo4j-udc</artifactId>
+          <groupId>org.neo4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j</groupId>
+      <artifactId>neo4j-enterprise</artifactId>
+      <version>${neo4j.version}</version>
+      <classifier>javadoc</classifier>
+      <exclusions>
+        <exclusion>
+          <artifactId>neo4j-udc</artifactId>
+          <groupId>org.neo4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j.app</groupId>
+      <artifactId>neo4j-server</artifactId>
+      <version>${neo4j.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>neo4j-udc</artifactId>
+          <groupId>org.neo4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j.app</groupId>
+      <artifactId>neo4j-server-advanced</artifactId>
+      <version>${neo4j.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>neo4j-udc</artifactId>
+          <groupId>org.neo4j</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.neo4j.app</groupId>
+      <artifactId>neo4j-server-enterprise</artifactId>
+      <version>${neo4j.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>neo4j-udc</artifactId>
+          <groupId>org.neo4j</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.neo4j.app</groupId>
